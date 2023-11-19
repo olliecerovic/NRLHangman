@@ -1,1 +1,61 @@
+import random
 
+print("Welcome to 'NRL Hangman', I'm your guest Ollie.")
+print("Today you are tasked with guessing my favourite NRL club.")
+print("You have 5 chances to guess correctly or you will be hung!")
+
+def choose_random_word():
+    words = ["bulldogs", "manly", "sharks", "cowboys", "broncos", "titans", "dolphins",
+             "storm", "warriors", "raiders", "eels", "tigers", "panthers", "rabbitohs",
+             "roosters", "dragons", "knights"]
+  
+    return random.choice(words)
+  
+def display(current_progress, attempts):
+    print("\nWord:" + " ".join(current_progress))
+    print(f"Attempts Remaining: {attempts}")
+
+def hangman():
+  word_to_guess = choose_random_word()
+  current_progress = ["_"] * len(word_to_guess)
+  attempts = 5
+  guessed_letters = set()
+
+  
+  while attempts > 0 and "_" in current_progress:
+    display(current_progress, attempts)
+    guess = input("Please enter a letter: "). lower() 
+
+    
+    if len(guess) !=1 or not guess.isalpha():
+      print("Invalid input. Please, enter a single alphabetical character.")
+      continue
+      
+    if guess in guessed_letters:
+      print("You have already guessed this letter.")
+      continue
+      
+    if guess in guessed_letters:
+      print("You have already guessed this letter.")
+      continue
+    else: 
+      guessed_letters.add(guess)
+      
+    if guess in word_to_guess:
+      for i, letter in enumerate(word_to_guess):
+        if letter == guess:
+          current_progress[i] = guess
+  
+    else: 
+      attempts -= 1
+      print(f"The letter {guess} is not in the word.")
+
+  display(current_progress, attempts)
+  
+  if '_' not in current_progress:
+    print("Congratulations! You've managed to guess my favourite NRL club!")
+  else: 
+    print(f"Sorry, you've lost! The word was {word_to_guess}! Better luck next time!")
+
+if __name__ == "__main__":
+  hangman()
